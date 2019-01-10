@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+
+<html lang="en" >
+	<head>
+	  <meta charset="UTF-8">
+	  <title>Random Number Game</title>
+	</head>
+
+
+<body>
+
+<div id="body">
+
+	 <!-- Games rules -->
+	<div id="hide">
+		<h1>Number Game</h1>
+			<p>Build a game in js with following rules</p>
+				<ul>
+					<li>User has 1000 INR when he starts the game</li>
+					<li>Every try(click on start) is charged 100 INR</li>
+					<li>Game is over if user has less than 100 INR</li>
+					<li>Every try generates three random numbers, each random number is in 0-9 range</li>
+					<li>If all the numbers are odd/even (eg. 2 4 6), user gets 300 INR</li>
+					<li>If the numbers are in sequence with difference of 1 in any order (eg. 2 3 4 or 3 2 4 or 4 6 5), user gets 800 INR</li>
+					<li>If all the numbers are same (eg. 4 4 4), user gets 1000 INR</li>
+					<li>Else user gets no money</li>
+				</ul>
+	</div>
+
+<!-- game  -->
+<h3>Game</h3>
+<h5>The Random numbers are </h5><br />
+
+	  <span id ="randomnumber1" class="box"></span>
+	  <span id ="randomnumber2" class="box"></span>
+	  <span id ="randomnumber3" class="box"></span>
+
+<br /><br />
+
+		<!-- total money left -->
+		<div id="moneyLeft"></div>
+
+		<!-- message for the win,lose or else -->
+		<div id="message"></div>
+
+<br/>
+<!-- start button -->
+	<section>
+		<button id="startbutton" type="button" onclick="getRndInteger(0,10);show('id1');">Start</button>
+	</section>
+
+<script>
+
+			//intiallaly all players are having 1000 rs
+			var  INR= 1000;
+			document.getElementById('message').innerHTML = "You have " + INR + " INR";
+
+			//reading the int value where performing the action to determine the even and odd numbers
+			function getRndInteger(min, max) {
+				var d1 = Math.floor(Math.random() * (max - min)) + min;
+				var d2 = Math.floor(Math.random() * (max - min)) + min;
+				var d3 = Math.floor(Math.random() * (max - min)) + min;
+
+				document.getElementById('randomnumber1').innerHTML = d1;
+				document.getElementById('randomnumber2').innerHTML = d2;
+				document.getElementById('randomnumber3').innerHTML = d3 ;
+
+			// condition for the even numbers
+		  if((((d1%2)==0) && ((d2%2)==0) && ((d3%2)==0))&& ((d1!=d2) || (d1!=d3))){
+				INR+=200;
+				document.getElementById('message').innerHTML = "You have " + (INR) + " INR";
+				document.getElementById('moneyLeft').innerHTML = "You have won 300 INR as all the numbers are even";
+			}
+
+			//condition for the odd numbers
+			else if((((d1%2)!=0) && ((d2%2)!=0) && ((d3%2)!=0))&& ((d1!=d2) || (d1!=d3))){
+				INR+=200;
+				document.getElementById('message').innerHTML = "You have " + (INR) + " INR";
+				document.getElementById('moneyLeft').innerHTML = "You have won 300 INR as all the numbers are odd";
+			}
+
+			//condition for the same numbers
+			else if((d1==d2)&& (d1==d3)){
+				INR+=900;
+				document.getElementById('message').innerHTML = "You have " + (INR) + " INR";
+				document.getElementById('moneyLeft').innerHTML = "You have won 1000 INR as all the numbers are same";
+			}
+
+			//condition for the sequence of the number
+			else if((((Math.abs(d1-d2)==1)&&(Math.abs(d2-d3)==1))||((Math.abs(d1-d3)==1)&&(Math.abs(d2-d3)==1))||((Math.abs(d1-d2)==1)&&(Math.abs(d1-d3)==1))) && ((d1!=d2) && (d1!=d3) && (d2!=d3)))
+			{
+				INR+=700;
+				document.getElementById('message').innerHTML = "You have " + (INR) + " INR";
+				document.getElementById('moneyLeft').innerHTML = "You have won 800 INR as the numbers are in sequence";
+			}
+
+			//condition of the game over
+			else if(INR<=100){
+			document.getElementById('startbutton').innerHTML = "Game Over";
+				document.getElementById('startbutton').disabled=true;}
+
+				// minimum balance where player cant play when money less than 100rs
+			else {
+				INR-=100;
+				document.getElementById('message').innerHTML = "You have " + (INR) + " INR";
+				document.getElementById('moneyLeft').innerHTML = "You were not lucky this time";
+			}
+
+
+		}
+
+
+		// hiding the display elements of the conditions
+		function show(elementId) {
+ 		document.getElementById("hide").style.display="none";
+}
+
+</script>
+
+</div>
+</body>
+</html>
